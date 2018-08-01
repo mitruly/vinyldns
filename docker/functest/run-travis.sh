@@ -28,7 +28,7 @@ do
     fi
 done
 
-DNS_IP=$(dig +short vinyldns-bind9)
+DNS_IP="http://localhost:53"
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
 chmod +x $DIR/run-tests.py
