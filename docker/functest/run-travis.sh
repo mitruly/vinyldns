@@ -28,4 +28,5 @@ DNS_IP=$(dig +short vinyldns-bind9)
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
 chmod +x run-tests.py
+ls -l
 ./run-tests.py live_tests -v --url=${VINYLDNS_URL} --dns-ip=${DNS_IP}
