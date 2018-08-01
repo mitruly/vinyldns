@@ -3,6 +3,9 @@ language: scala
 scala:
   - 2.12.6
 
+python:
+  - 2.7
+
 sudo: false
 
 jdk:
@@ -13,6 +16,7 @@ services:
   - docker-compose
 
 cache:
+  pip
   directories:
     - $HOME/.ivy2/cache
     - $HOME/.sbt
@@ -21,7 +25,8 @@ cache:
 install:
   - wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz
   - tar -xzvf protobuf-2.6.1.tar.gz
-  - pushd protobuf-2.6.1 && ./configure --prefix=/usr && make && sudo make install && popd    
+  - pushd protobuf-2.6.1 && ./configure --prefix=/usr && make && sudo make install && popd
+  - pip install -r modules/api/functional_test/requirements.txt
 
 before_cache:
   # Cleanup the cached directories to avoid unnecessary cache updates (https://www.scala-sbt.org/1.0/docs/Travis-CI-with-sbt.html)
