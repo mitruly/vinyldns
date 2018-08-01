@@ -3,7 +3,6 @@
 DIR=$( cd $(dirname $0) ; pwd -P )
 
 echo "run-travis DIR: $DIR"
-echo "run-travis WORK_DIR: $WORK_DIR"
 
 VINYLDNS_URL="http://localhost:9000"
 echo "Waiting for API to be ready at ${VINYLDNS_URL} ..."
@@ -32,6 +31,6 @@ done
 DNS_IP=$(dig +short vinyldns-bind9)
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
-chmod +x DIR/run-tests.py
+chmod +x $DIR/run-tests.py
 ls -l $DIR
-$DIR/docker/functest/run-tests.py live_tests -v --url=${VINYLDNS_URL} --dns-ip=${DNS_IP}
+$DIR/run-tests.py live_tests -v --url=${VINYLDNS_URL} --dns-ip=${DNS_IP}
