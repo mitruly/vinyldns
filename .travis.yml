@@ -3,6 +3,9 @@ language: scala
 scala:
   - 2.12.6
 
+python:
+  - 2.7
+
 sudo: false
 
 jdk:
@@ -13,7 +16,6 @@ services:
   - docker-compose
 
 cache:
-  pip
   directories:
     - $HOME/.ivy2/cache
     - $HOME/.sbt
