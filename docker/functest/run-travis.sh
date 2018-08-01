@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 DIR=$( cd $(dirname $0) ; pwd -P )
-WORK_DIR=$DIR/../target/scala-2.12
 
 echo "run-travis DIR: $DIR"
 echo "run-travis WORK_DIR: $WORK_DIR"
@@ -33,6 +32,6 @@ done
 DNS_IP=$(dig +short vinyldns-bind9)
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
-chmod +x $WORK_DIR/docker/functest/run-tests.py
-ls -l $WORK_DIR/docker/functest
-$WORK_DIR/docker/functest/run-tests.py live_tests -v --url=${VINYLDNS_URL} --dns-ip=${DNS_IP}
+chmod +x DIR/run-tests.py
+ls -l $DIR
+$DIR/docker/functest/run-tests.py live_tests -v --url=${VINYLDNS_URL} --dns-ip=${DNS_IP}
