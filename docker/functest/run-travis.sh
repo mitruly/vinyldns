@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+DIR=$( cd $(dirname $0) ; pwd -P )
+WORK_DIR=$DIR/../target/scala-2.12
+
 VINYLDNS_URL="http://localhost:9000"
 echo "Waiting for API to be ready at ${VINYLDNS_URL} ..."
 DATA=""
@@ -27,4 +30,4 @@ done
 DNS_IP=$(dig +short vinyldns-bind9)
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
-./run-tests.py live_tests -v --url=${VINYLDNS_URL} --dns-ip=${DNS_IP}
+$WORK_DIR/docker/functest/run-tests.py live_tests -v --url=${VINYLDNS_URL} --dns-ip=${DNS_IP}
