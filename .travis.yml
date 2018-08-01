@@ -33,6 +33,8 @@ jobs:
     - stage: "Verify"
       script: sbt ++$TRAVIS_SCALA_VERSION ";validate-api; validate-core; verify-api"
       name: "Validate and verify API"
+    - script: ./bin/func-test-api.sh
+      name: "Run API functional tests"
     - script: sbt ++$TRAVIS_SCALA_VERSION ";validate-portal; verify-portal"
       name: "Validate and verify portal"
     - script: ./bin/func-test-portal.sh
