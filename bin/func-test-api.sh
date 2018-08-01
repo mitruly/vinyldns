@@ -39,9 +39,6 @@ echo "Starting docker environment and running func tests..."
 docker-compose -f $WORK_DIR/docker/docker-compose-func-test.yml --project-directory $WORK_DIR/docker --log-level ERROR up --build --exit-code-from functest
 test_result=$?
 
-echo "Listing docker containers..."
-docker ps
-
 echo "Grabbing the logs..."
 
 docker logs vinyldns-api > $DIR/../target/vinyldns-api.log 2>/dev/null

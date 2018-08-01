@@ -36,7 +36,9 @@ echo "Retrieving docker-compose version.."
 docker-compose --version
 
 echo "Starting docker environment and running func tests..."
-docker-compose -f $WORK_DIR/docker/docker-compose-func-test.yml --project-directory $WORK_DIR/docker up --build -d api
+docker-compose -f $WORK_DIR/docker/docker-compose-func-test.yml --project-directory $WORK_DIR/docker --log-level ERROR up --build -d api functest
+chmod +x $WORK_DIR/docker/functest/run.sh
+$WORK_DIR/docker/functest/run.sh
 test_result=$?
 
 echo "Listing docker containers..."
