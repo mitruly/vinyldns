@@ -41,7 +41,7 @@ docker-compose -f $WORK_DIR/docker/docker-compose-func-test.yml --project-direct
 ls -l $WORK_DIR/docker
 ls -l $WORK_DIR/docker/functest
 chmod +x $WORK_DIR/docker/functest/run-travis.sh
-$WORK_DIR/docker/functest/run.sh
+$WORK_DIR/docker/functest/run-travis.sh
 test_result=$?
 
 echo "Listing docker containers..."
