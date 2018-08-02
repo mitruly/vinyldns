@@ -28,6 +28,10 @@ do
     fi
 done
 
+echo "Pinging DNS server.."
+ping "http://localhost:53"
+ping "http://localhost:19001"
+
 DNS_IP="http://localhost:53"
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
