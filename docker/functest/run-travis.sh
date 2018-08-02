@@ -29,9 +29,6 @@ do
 done
 
 DNS_IP="127.0.0.1:53"
-telnet 127.0.0.1 53
-telnet 127.0.0.1 9000
-telnet 127.0.0.1 9001
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
 chmod +x "$DIR"/run-tests.py

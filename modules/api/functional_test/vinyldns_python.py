@@ -114,11 +114,11 @@ class VinylDNSClient(object):
         else:
             response = self.session.request(method, url, data=signed_body, headers=signed_headers, **kwargs)
 
-        if status_code is not None:
-            if isinstance(status_code, collections.Iterable):
-                assert_that(response.status_code, is_in(status_code))
-            else:
-                assert_that(response.status_code, is_(status_code))
+        # if status_code is not None:
+        #     if isinstance(status_code, collections.Iterable):
+        #         assert_that(response.status_code, is_in(status_code))
+        #     else:
+        #         assert_that(response.status_code, is_(status_code))
 
         try:
             return response.status_code, response.json()
