@@ -29,12 +29,12 @@ do
 done
 
 echo "Pinging DNS server.."
-ping "http://localhost:53"
-ping "http://localhost:19001"
+ping http://localhost:53
+ping http://localhost:19001
 
 DNS_IP="http://localhost:53"
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
 chmod +x "$DIR"/run-tests.py
 ls -l "$DIR"
-"$DIR"/run-tests.py "$DIR"/functional_test/live_tests/* -v #--url="$VINYLDNS_URL" --dns-ip="$DNS_IP"
+"$DIR"/run-tests.py "$DIR"/functional_test/live_tests/* -v --url="$VINYLDNS_URL" --dns-ip="$DNS_IP"
