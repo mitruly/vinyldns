@@ -38,7 +38,13 @@ docker-compose --version
 echo "Starting docker environment and running func tests..."
 docker-compose -f $WORK_DIR/docker/docker-compose-func-test.yml --project-directory $WORK_DIR/docker up -d
 
-pytest --junitxml="$DIR"/../target/pytest_reports/pytest.xml
+if [[ ! -d "$DIR"/../target/pytest_reports ]]; then
+    mkdir "$DIR"/../target/pytest_reports
+fi
+
+if [[ ! -f "$DIR"/../target/pytest_reports/pytest.xml ]]; then
+    touch "$DIR"/../target/pytest_reports/pytest.xml
+fi
 
 ls -l $WORK_DIR/docker
 ls -l $WORK_DIR/docker/functest
