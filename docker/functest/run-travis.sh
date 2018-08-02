@@ -33,4 +33,4 @@ echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
 chmod +x "$DIR"/run-tests.py
 ls -l "$DIR"
-"$DIR"/run-tests.py "$DIR"/functional_test/live_tests/batch/create_batch_change_test.py -v #--url="$VINYLDNS_URL" --dns-ip="$DNS_IP"
+"$DIR"/run-tests.py "$DIR"/functional_test/live_tests/* -v #--url="$VINYLDNS_URL" --dns-ip="$DNS_IP"
