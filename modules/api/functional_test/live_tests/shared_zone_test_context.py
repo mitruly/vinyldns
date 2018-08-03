@@ -52,8 +52,6 @@ class SharedZoneTestContext(object):
                         'primaryServer': VinylDNSTestContext.dns_ip
                     }
                 }, status=202)
-            import json
-            print("ok_zone_change: " + json.dumps(ok_zone_change, indent=3))
             self.ok_zone = ok_zone_change['zone']
 
             dummy_zone_change = self.dummy_vinyldns_client.create_zone(
