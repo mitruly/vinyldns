@@ -37,11 +37,3 @@ chmod +x "$DIR"/run-tests.py
 #ls -l "$DIR"
 #"$DIR"/run-tests.py "$DIR"/functional_test/live_tests/* -v --url="$VINYLDNS_URL" --dns-ip="$DNS_IP"
 "$DIR"/run-tests.py "$DIR"/functional_test/live_tests/recordsets/create_recordset_test.py -v --url="$VINYLDNS_URL" --dns-ip="$DNS_IP"
-ls -l "$DIR"
-ls -l "$DIR"/..
-ls -l "$DIR"/../..
-ls -l "$DIR"/../../..
-echo "View API logs"
-cat "$DIR"/../../../vinyldns-api.log
-echo "View bind9 logs"
-cat "$DIR"/../../../vinyldns-bind9.log

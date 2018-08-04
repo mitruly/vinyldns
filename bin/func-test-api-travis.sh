@@ -57,6 +57,12 @@ docker ps
 
 echo "Grabbing the logs..."
 
+echo "View API logs"
+docker logs vinyldns-api
+
+echo "View bind9 logs"
+docker logs vinyldns-bind9
+
 docker logs vinyldns-api > $DIR/../target/vinyldns-api.log 2>/dev/null
 docker logs vinyldns-bind9 > $DIR/../target/vinyldns-bind9.log 2>/dev/null
 docker logs vinyldns-mysql > $DIR/../target/vinyldns-mysql.log 2>/dev/null
