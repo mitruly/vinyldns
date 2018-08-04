@@ -70,6 +70,9 @@ docker logs vinyldns-elasticmq > $DIR/../target/vinyldns-elasticmq.log 2>/dev/nu
 docker logs vinyldns-dynamodb > $DIR/../target/vinyldns-dynamodb.log 2>/dev/null
 docker logs vinyldns-functest > $DIR/../target/vinyldns-functest.log 2>/dev/null
 
+echo "Dig bind9 server.."
+dig @127.0.0.1 -p19001 dummy.
+
 echo "Cleaning up docker containers..."
 $DIR/./stop-all-docker-containers.sh
 
