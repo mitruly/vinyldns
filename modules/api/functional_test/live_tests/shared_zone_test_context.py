@@ -19,7 +19,8 @@ class SharedZoneTestContext(object):
 
         try:
             all_ok_groups = self.ok_vinyldns_client.list_all_my_groups()
-            print("all ok groups: " + all_ok_groups)
+            import json
+            print("all ok groups: " + json.dumps(all_ok_groups))
 
             self.ok_group = self.ok_vinyldns_client.get_group("ok", status=200)
             # in theory this shouldn't be needed, but getting 'user is not in group' errors on zone creation
