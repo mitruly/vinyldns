@@ -40,7 +40,8 @@ chmod +x "$DIR"/run-tests.py
 ls -l "$DIR"
 ls -l "$DIR"/..
 ls -l "$DIR"/../..
+ls -l "$DIR"/../../..
 echo "View API logs"
-cat "$DIR"/../../vinyldns-api.log
+cat "$DIR"/../../../vinyldns-api.log
 echo "View bind9 logs"
-cat "$DIR"/../../vinyldns-bind9.log
+cat "$DIR"/../../../vinyldns-bind9.log
