@@ -18,6 +18,9 @@ class SharedZoneTestContext(object):
         self.tear_down() # ensures that the environment is clean before starting
 
         try:
+            all_ok_groups = self.ok_vinyldns_client.list_all_my_groups()
+            print("all ok groups: " + all_ok_groups)
+
             self.ok_group = self.ok_vinyldns_client.get_group("ok", status=200)
             # in theory this shouldn't be needed, but getting 'user is not in group' errors on zone creation
             self.confirm_member_in_group(self.ok_vinyldns_client, self.ok_group)
