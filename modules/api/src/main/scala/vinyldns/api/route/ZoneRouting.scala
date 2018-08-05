@@ -142,39 +142,45 @@ trait ZoneRoute extends Directives {
     }
     .result()
 
-  private def execute[A](f: => Result[A])(rt: A => Route): Route = onSuccess(f.run) {
-    case \/-(a) => rt(a)
-    case -\/(ZoneAlreadyExistsError(msg)) => complete(StatusCodes.Conflict, msg)
-    case -\/(ConnectionFailed(_, msg)) => {
-      logger.info(s"Connection failed: " + msg + "\n")
-      complete(StatusCodes.BadRequest, msg)
-    }
-    case -\/(ZoneValidationFailed(zone, errors, _)) =>
+  private def execute[A](f: => Result[A])(rt: A => Route): Route = {
+    logger.info(s"ZoneRouting execute..")
+    onSuccess(f.run) {
+      case \/-(a) => rt(a)
+      case -\/(ZoneAlreadyExistsError(msg)) => complete(StatusCodes.Conflict, msg)
+      case -\/(ConnectionFailed(_, msg)) => {
+        logger.info(s"ZoneRouting Connection failed: " + msg + "\n")
+        complete(StatusCodes.BadRequest, msg)
+      }
+      case -\/(ZoneValidationFailed(zone, errors, _)) =>
       {
-        logger.info(s"Zone validation failed: " + errors + "\n")
+        logger.info(s"ZoneRouting Zone validation failed: " + errors + "\n")
         complete(StatusCodes.BadRequest, ZoneRejected(zone, errors))
       }
-    case -\/(NotAuthorizedError(msg)) => complete(StatusCodes.Forbidden, msg)
-    case -\/(InvalidZoneAdminError(msg)) => {
-      logger.info(s"Invalid zone admin error: " + msg + "\n")
-      complete(StatusCodes.BadRequest, msg)
+      case -\/(NotAuthorizedError(msg)) => complete(StatusCodes.Forbidden, msg)
+      case -\/(InvalidZoneAdminError(msg)) => {
+        logger.info(s"ZoneRouting Invalid zone admin error: " + msg + "\n")
+        complete(StatusCodes.BadRequest, msg)
+      }
+      case -\/(ZoneNotFoundError(msg)) => complete(StatusCodes.NotFound, msg)
+      case -\/(ZoneUnavailableError(msg)) => complete(StatusCodes.Conflict, msg)
+      case -\/(InvalidSyncStateError(msg)) => {
+        logger.info(s"ZoneRouting Invalid sync state: " + msg + "\n")
+        complete(StatusCodes.BadRequest, msg)
+      }
+      case -\/(PendingUpdateError(msg)) => complete(StatusCodes.Conflict, msg)
+      case -\/(RecentSyncError(msg)) => complete(StatusCodes.Forbidden, msg)
+      case -\/(ZoneInactiveError(msg)) => {
+        logger.info(s"ZoneRouting ZoneInactiveError: " + msg + "\n")
+        complete(StatusCodes.BadRequest, msg)
+      }
+      case -\/(InvalidRequest(msg)) => {
+        logger.info(s"ZoneRouting Invalid request: " + msg + "\n")
+        complete(StatusCodes.BadRequest, msg)
+      }
+      case -\/(e) => {
+        logger.info(s"ZoneRouting error uncaught")
+        failWith(e)
+      }
     }
-    case -\/(ZoneNotFoundError(msg)) => complete(StatusCodes.NotFound, msg)
-    case -\/(ZoneUnavailableError(msg)) => complete(StatusCodes.Conflict, msg)
-    case -\/(InvalidSyncStateError(msg)) => {
-      logger.info(s"Invalid sync state: " + msg + "\n")
-      complete(StatusCodes.BadRequest, msg)
-    }
-    case -\/(PendingUpdateError(msg)) => complete(StatusCodes.Conflict, msg)
-    case -\/(RecentSyncError(msg)) => complete(StatusCodes.Forbidden, msg)
-    case -\/(ZoneInactiveError(msg)) => {
-      logger.info(s"ZoneInactiveError: " + msg + "\n")
-      complete(StatusCodes.BadRequest, msg)
-    }
-    case -\/(InvalidRequest(msg)) => {
-      logger.info(s"Invalid request: " + msg + "\n")
-      complete(StatusCodes.BadRequest, msg)
-    }
-    case -\/(e) => failWith(e)
   }
 }
