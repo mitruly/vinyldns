@@ -39,27 +39,6 @@ class SharedZoneTestContext(object):
             # in theory this shouldn't be needed, but getting 'user is not in group' errors on zone creation
             self.confirm_member_in_group(self.dummy_vinyldns_client, self.dummy_group)
 
-            ok_zone_change = self.ok_vinyldns_client.create_zone(
-                {
-                    'name': 'ok.',
-                    'email': 'test@test.com',
-                    'shared': False,
-                    'adminGroupId': self.ok_group['id'],
-                    'connection': {
-                        'name': 'ok.',
-                        'keyName': VinylDNSTestContext.dns_key_name,
-                        'key': VinylDNSTestContext.dns_key,
-                        'primaryServer': VinylDNSTestContext.dns_ip
-                    },
-                    'transferConnection': {
-                        'name': 'ok.',
-                        'keyName': VinylDNSTestContext.dns_key_name,
-                        'key': VinylDNSTestContext.dns_key,
-                        'primaryServer': VinylDNSTestContext.dns_ip
-                    }
-                }, status=202)
-            self.ok_zone = ok_zone_change['zone']
-
             dummy_zone_change = self.dummy_vinyldns_client.create_zone(
                 {
                     'name': 'dummy.',
@@ -80,6 +59,27 @@ class SharedZoneTestContext(object):
                     }
                 }, status=202)
             self.dummy_zone = dummy_zone_change['zone']
+
+            ok_zone_change = self.ok_vinyldns_client.create_zone(
+                {
+                    'name': 'ok.',
+                    'email': 'test@test.com',
+                    'shared': False,
+                    'adminGroupId': self.ok_group['id'],
+                    'connection': {
+                        'name': 'ok.',
+                        'keyName': VinylDNSTestContext.dns_key_name,
+                        'key': VinylDNSTestContext.dns_key,
+                        'primaryServer': VinylDNSTestContext.dns_ip
+                    },
+                    'transferConnection': {
+                        'name': 'ok.',
+                        'keyName': VinylDNSTestContext.dns_key_name,
+                        'key': VinylDNSTestContext.dns_key,
+                        'primaryServer': VinylDNSTestContext.dns_ip
+                    }
+                }, status=202)
+            self.ok_zone = ok_zone_change['zone']
 
             ip6_reverse_zone_change = self.ok_vinyldns_client.create_zone(
                 {
