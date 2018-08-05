@@ -72,6 +72,7 @@ docker logs vinyldns-functest > $DIR/../target/vinyldns-functest.log 2>/dev/null
 
 echo "Dig bind9 server.."
 dig @127.0.0.1 -p19001 dummy.
+dig @127.0.0.1 -p19001 ok.
 
 echo "Cleaning up docker containers..."
 $DIR/./stop-all-docker-containers.sh
