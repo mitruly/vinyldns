@@ -141,18 +141,36 @@ trait ZoneRoute extends Directives {
   private def execute[A](f: => Result[A])(rt: A => Route): Route = onSuccess(f.run) {
     case \/-(a) => rt(a)
     case -\/(ZoneAlreadyExistsError(msg)) => complete(StatusCodes.Conflict, msg)
-    case -\/(ConnectionFailed(_, msg)) => complete(StatusCodes.BadRequest, msg)
+    case -\/(ConnectionFailed(_, msg)) => {
+      print(s"Connection failed: " + msg + "\n")
+      complete(StatusCodes.BadRequest, msg)
+    }
     case -\/(ZoneValidationFailed(zone, errors, _)) =>
-      complete(StatusCodes.BadRequest, ZoneRejected(zone, errors))
+      {
+        print(s"Zone validation failed: " + errors + "\n")
+        complete(StatusCodes.BadRequest, ZoneRejected(zone, errors))
+      }
     case -\/(NotAuthorizedError(msg)) => complete(StatusCodes.Forbidden, msg)
-    case -\/(InvalidZoneAdminError(msg)) => complete(StatusCodes.BadRequest, msg)
+    case -\/(InvalidZoneAdminError(msg)) => {
+      print(s"Invalid zone admin error: " + msg + "\n")
+      complete(StatusCodes.BadRequest, msg)
+    }
     case -\/(ZoneNotFoundError(msg)) => complete(StatusCodes.NotFound, msg)
     case -\/(ZoneUnavailableError(msg)) => complete(StatusCodes.Conflict, msg)
-    case -\/(InvalidSyncStateError(msg)) => complete(StatusCodes.BadRequest, msg)
+    case -\/(InvalidSyncStateError(msg)) => {
+      print(s"Invalid sync state: " + msg + "\n")
+      complete(StatusCodes.BadRequest, msg)
+    }
     case -\/(PendingUpdateError(msg)) => complete(StatusCodes.Conflict, msg)
     case -\/(RecentSyncError(msg)) => complete(StatusCodes.Forbidden, msg)
-    case -\/(ZoneInactiveError(msg)) => complete(StatusCodes.BadRequest, msg)
-    case -\/(InvalidRequest(msg)) => complete(StatusCodes.BadRequest, msg)
+    case -\/(ZoneInactiveError(msg)) => {
+      print(s"ZoneInactiveError: " + msg + "\n")
+      complete(StatusCodes.BadRequest, msg)
+    }
+    case -\/(InvalidRequest(msg)) => {
+      print(s"Invalid request: " + msg + "\n")
+      complete(StatusCodes.BadRequest, msg)
+    }
     case -\/(e) => failWith(e)
   }
 }
