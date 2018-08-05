@@ -29,6 +29,8 @@ import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.matching.Regex
 
+import org.slf4j.LoggerFactory
+
 trait ZoneConnectionValidatorAlgebra {
   def validateZoneConnections(zone: Zone): Result[Unit]
 }
@@ -40,6 +42,8 @@ class ZoneConnectionValidator(defaultConnection: ZoneConnection, scheduler: Sche
   import ZoneRecordValidations._
 
   val futureTimeout: FiniteDuration = 6.seconds
+
+  private val logger = LoggerFactory.getLogger("ZOneConnectionValidator")
 
   val approvedNameServers: List[Regex] = {
     val ns = VinylDNSConfig.vinyldnsConfig.getStringList("approved-name-servers").asScala.toList
@@ -83,9 +87,13 @@ class ZoneConnectionValidator(defaultConnection: ZoneConnection, scheduler: Sche
     val result =
       for {
         connection <- getDnsConnection(zone)
+        _ <- logger.info(s"validateZoneConnections getDnsConnection passed")
         resp <- connection.resolve(zone.name, zone.name, RecordType.SOA)
+        _ <- logger.info(s"validateZoneConnections connection resolved")
         view <- loadZone(zone)
+        _ <- logger.info(s"validateZoneConnections zone loaded")
         _ <- runZoneChecks(view)
+        _ <- logger.info(s"validateZoneConnections zone check passed")
         _ <- hasSOA(resp, zone)
       } yield ()
 

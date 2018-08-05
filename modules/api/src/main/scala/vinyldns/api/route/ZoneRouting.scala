@@ -26,6 +26,8 @@ import vinyldns.api.domain.zone._
 
 import scala.concurrent.duration._
 
+import org.slf4j.LoggerFactory
+
 case class GetZoneResponse(zone: ZoneInfo)
 case class ZoneRejected(zone: Zone, errors: List[String])
 
@@ -39,6 +41,8 @@ trait ZoneRoute extends Directives {
 
   // Timeout must be long enough to allow the cluster to form
   implicit val zoneCmdTimeout: Timeout = Timeout(10.seconds)
+
+  private val logger = LoggerFactory.getLogger("ZoneRouting")
 
   val zoneRoute = { authPrincipal: AuthPrincipal =>
     (post & path("zones") & monitor("Endpoint.createZone")) {
@@ -142,33 +146,33 @@ trait ZoneRoute extends Directives {
     case \/-(a) => rt(a)
     case -\/(ZoneAlreadyExistsError(msg)) => complete(StatusCodes.Conflict, msg)
     case -\/(ConnectionFailed(_, msg)) => {
-      print(s"Connection failed: " + msg + "\n")
+      logger.info(s"Connection failed: " + msg + "\n")
       complete(StatusCodes.BadRequest, msg)
     }
     case -\/(ZoneValidationFailed(zone, errors, _)) =>
       {
-        print(s"Zone validation failed: " + errors + "\n")
+        logger.info(s"Zone validation failed: " + errors + "\n")
         complete(StatusCodes.BadRequest, ZoneRejected(zone, errors))
       }
     case -\/(NotAuthorizedError(msg)) => complete(StatusCodes.Forbidden, msg)
     case -\/(InvalidZoneAdminError(msg)) => {
-      print(s"Invalid zone admin error: " + msg + "\n")
+      logger.info(s"Invalid zone admin error: " + msg + "\n")
       complete(StatusCodes.BadRequest, msg)
     }
     case -\/(ZoneNotFoundError(msg)) => complete(StatusCodes.NotFound, msg)
     case -\/(ZoneUnavailableError(msg)) => complete(StatusCodes.Conflict, msg)
     case -\/(InvalidSyncStateError(msg)) => {
-      print(s"Invalid sync state: " + msg + "\n")
+      logger.info(s"Invalid sync state: " + msg + "\n")
       complete(StatusCodes.BadRequest, msg)
     }
     case -\/(PendingUpdateError(msg)) => complete(StatusCodes.Conflict, msg)
     case -\/(RecentSyncError(msg)) => complete(StatusCodes.Forbidden, msg)
     case -\/(ZoneInactiveError(msg)) => {
-      print(s"ZoneInactiveError: " + msg + "\n")
+      logger.info(s"ZoneInactiveError: " + msg + "\n")
       complete(StatusCodes.BadRequest, msg)
     }
     case -\/(InvalidRequest(msg)) => {
-      print(s"Invalid request: " + msg + "\n")
+      logger.info(s"Invalid request: " + msg + "\n")
       complete(StatusCodes.BadRequest, msg)
     }
     case -\/(e) => failWith(e)
