@@ -87,13 +87,9 @@ class ZoneConnectionValidator(defaultConnection: ZoneConnection, scheduler: Sche
     val result =
       for {
         connection <- getDnsConnection(zone)
-        _ <- logger.info(s"validateZoneConnections getDnsConnection passed")
         resp <- connection.resolve(zone.name, zone.name, RecordType.SOA)
-        _ <- logger.info(s"validateZoneConnections connection resolved")
         view <- loadZone(zone)
-        _ <- logger.info(s"validateZoneConnections zone loaded")
         _ <- runZoneChecks(view)
-        _ <- logger.info(s"validateZoneConnections zone check passed")
         _ <- hasSOA(resp, zone)
       } yield ()
 
