@@ -199,6 +199,8 @@ class DnsConnection(val resolver: DNS.Resolver) extends DnsConversions {
 
 object DnsConnection {
 
+  val logger = LoggerFactory.getLogger("DnsConnection")
+
   def apply(conn: ZoneConnection): DnsConnection = new DnsConnection(createResolver(conn))
 
   def createResolver(conn: ZoneConnection): DNS.SimpleResolver = {
@@ -207,6 +209,7 @@ object DnsConnection {
     val (host, port) = parseHostAndPort(decryptedConnection.primaryServer)
     val resolver = new DNS.SimpleResolver(host)
     resolver.setPort(port)
+    logger.error(s"MITRULY host: $host; port: $port")
     resolver.setTSIGKey(new DNS.TSIG(decryptedConnection.keyName, decryptedConnection.key))
 
     resolver
