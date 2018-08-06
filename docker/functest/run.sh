@@ -24,6 +24,9 @@ do
     fi
 done
 
+echo "vinyldns bind9: ${vinyldns-bind9}"
+echo "DIG: "
+dig +short vinyldns-bind9
 DNS_IP=$(dig +short vinyldns-bind9)
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
