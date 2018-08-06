@@ -24,7 +24,8 @@ do
     fi
 done
 
-echo "vinyldns bind9: ${vinyldns-bind9}"
+echo "vinyldns bind9: "
+echo vinyldns-bind9
 echo "DIG: "
 dig +short vinyldns-bind9
 DNS_IP=$(dig +short vinyldns-bind9)
