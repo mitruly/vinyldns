@@ -4,7 +4,7 @@ DIR=$( cd $(dirname $0) ; pwd -P )
 
 echo "run-travis DIR: $DIR"
 
-VINYLDNS_URL="http://localhost:9000"
+VINYLDNS_URL="http://vinyldns-api:9000"
 echo "Waiting for API to be ready at ${VINYLDNS_URL} ..."
 DATA=""
 RETRY=40
@@ -28,7 +28,9 @@ do
     fi
 done
 
-DNS_IP="vinyldns-bind9:19001"
+DNS_IP="vinyldns-bind9"
+DIG_IP=$(dig +short vinyldns-bind9)
+echo "DIG IP: $DIG_IP"
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
 docker ps
