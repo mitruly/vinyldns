@@ -38,4 +38,4 @@ docker ps
 chmod +x "$DIR"/run-tests.py
 #ls -l "$DIR"
 #"$DIR"/run-tests.py "$DIR"/functional_test/live_tests/* -v --url="$VINYLDNS_URL" --dns-ip="$DNS_IP"
-"$DIR"/run-tests.py "$DIR"/functional_test/live_tests/recordsets/create_recordset_test.py -v --url="$VINYLDNS_URL" --dns-ip="$DNS_IP"
+"$DIR"/run-tests.py "$DIR"/functional_test/live_tests/* -v --url="$VINYLDNS_URL" --dns-ip="$DNS_IP"
