@@ -4,7 +4,7 @@ DIR=$( cd $(dirname $0) ; pwd -P )
 
 echo "run-travis DIR: $DIR"
 
-VINYLDNS_URL="http://vinyldns-api:9000"
+VINYLDNS_URL="http://localhost:9000"
 echo "Waiting for API to be ready at ${VINYLDNS_URL} ..."
 DATA=""
 RETRY=40
