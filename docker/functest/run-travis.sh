@@ -28,7 +28,7 @@ do
     fi
 done
 
-DNS_IP="127.0.0.1:19001"
+DNS_IP="vinyldns-bind9"
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"
 
 docker ps
