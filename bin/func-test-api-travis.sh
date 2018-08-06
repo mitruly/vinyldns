@@ -75,7 +75,7 @@ dig @127.0.0.1 -p19001 dummy.
 dig @127.0.0.1 -p19001 ok.
 
 echo "Cleaning up docker containers..."
-# $DIR/./stop-all-docker-containers.sh
+$DIR/./stop-all-docker-containers.sh
 
 echo "Func tests returned result: ${test_result}"
 exit ${test_result}
