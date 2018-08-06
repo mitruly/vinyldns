@@ -28,7 +28,7 @@ do
     fi
 done
 
-DNS_IP="vinyldns-bind9"
+DNS_IP="172.18.0.2"
 DIG_IP=$(dig +short vinyldns-bind9)
 echo "DIG IP: $DIG_IP"
 echo "Running live tests against ${VINYLDNS_URL} and DNS server ${DNS_IP}"

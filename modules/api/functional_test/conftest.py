@@ -74,5 +74,5 @@ def pytest_report_header(config):
     header += "\r\nURL: " + config.getoption("url")
     header += "\r\nRunning from directory " + os.getcwd()
     header += '\r\nTest shim directory ' + os.path.dirname(__file__)
-    header += "MITRULY DNS IP: " + config.getoption("dns_ip")
+    header += "\r\nMITRULY DNS IP: " + config.getoption("dns_ip")
     return header
