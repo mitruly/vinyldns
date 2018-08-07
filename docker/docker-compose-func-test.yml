@@ -35,6 +35,7 @@ services:
 
   # this file is copied into the target directory to get the jar!  won't run in place as is!
   api:
+    image: "vinyldns/api:0.8.0"
     build:
       context: api
     environment:

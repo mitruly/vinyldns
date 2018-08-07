@@ -23,15 +23,6 @@ echo "Copy over the functional tests as well as those that are run in a containe
 mkdir -p $WORK_DIR/functest
 rsync -av --exclude='.virtualenv' $DIR/../modules/api/functional_test $WORK_DIR/docker/functest
 
-echo "Copy the vinyldns.jar to the api docker folder so it is in context..."
-if [[ ! -f $DIR/../modules/api/target/scala-2.12/vinyldns.jar ]]; then
-    echo "vinyldns jar not found, building..."
-    cd $DIR/../
-    sbt api/clean api/assembly
-    cd $DIR
-fi
-cp -f $DIR/../modules/api/target/scala-2.12/vinyldns.jar $WORK_DIR/docker/api
-
 echo "Starting docker environment and running func tests..."
 docker-compose -f $WORK_DIR/docker/docker-compose-func-test.yml --project-directory $WORK_DIR/docker up --exit-code-from functest
 test_result=$?
