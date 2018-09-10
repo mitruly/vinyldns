@@ -25,12 +25,13 @@ import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{BeforeAndAfterEach, Matchers, WordSpec}
 import org.xbill.DNS
-import vinyldns.api.ResultHelpers
+import vinyldns.api.{ResultHelpers, VinylDNSTestData}
+
 import vinyldns.api.domain.dns.DnsProtocol._
 import vinyldns.core.domain.record.RecordType._
 import vinyldns.core.domain.record._
 import vinyldns.core.crypto.CryptoAlgebra
-import vinyldns.core.domain.zone.{Zone, ZoneConnection}
+import vinyldns.core.domain.zone.Zone
 
 import scala.collection.JavaConverters._
 
@@ -39,10 +40,10 @@ class DnsConnectionSpec
     with Matchers
     with MockitoSugar
     with ResultHelpers
-    with BeforeAndAfterEach {
+    with BeforeAndAfterEach
+    with VinylDNSTestData {
 
-  private val zoneConnection =
-    ZoneConnection("vinyldns.", "vinyldns.", "nzisn+4G2ldMn0q1CV3vsg==", "10.1.1.1")
+  private val zoneConnection = testZoneConnection
   private val testZone = Zone("vinyldns", "test@test.com")
   private val testA = RecordSet(
     testZone.id,

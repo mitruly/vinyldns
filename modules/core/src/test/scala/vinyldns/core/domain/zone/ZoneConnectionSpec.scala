@@ -19,10 +19,11 @@ package vinyldns.core.domain.zone
 import cats.scalatest.EitherMatchers
 import org.scalatest.{Matchers, WordSpec}
 import vinyldns.core.crypto.CryptoAlgebra
+import vinyldns.core.TestZoneData.testZoneConnection
 
 class ZoneConnectionSpec extends WordSpec with Matchers with EitherMatchers {
 
-  val testCrypto = new CryptoAlgebra {
+  private val testCrypto = new CryptoAlgebra {
     def encrypt(value: String): String = "encrypted!"
 
     def decrypt(value: String): String = "decrypted!"
@@ -30,13 +31,13 @@ class ZoneConnectionSpec extends WordSpec with Matchers with EitherMatchers {
 
   "ZoneConnection" should {
     "encrypt clear connections" in {
-      val test = ZoneConnection("vinyldns.", "vinyldns.", "nzisn+4G2ldMn0q1CV3vsg==", "10.1.1.1")
+      val test = testZoneConnection
 
       test.encrypted(testCrypto).key shouldBe "encrypted!"
     }
 
     "decrypt connections" in {
-      val test = ZoneConnection("vinyldns.", "vinyldns.", "nzisn+4G2ldMn0q1CV3vsg==", "10.1.1.1")
+      val test = testZoneConnection
       val decrypted = test.decrypted(testCrypto)
 
       decrypted.key shouldBe "decrypted!"

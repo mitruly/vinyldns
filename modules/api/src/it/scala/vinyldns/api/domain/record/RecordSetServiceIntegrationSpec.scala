@@ -78,7 +78,7 @@ class RecordSetServiceIntegrationSpec
     s"live-zone-test.",
     "test@test.com",
     status = ZoneStatus.Active,
-    connection = testConnection,
+    connection = testZoneConnectionOption,
     adminGroupId = group.id)
   private val apexTestRecordA = RecordSet(
     zone.id,
@@ -130,7 +130,7 @@ class RecordSetServiceIntegrationSpec
     s"zone-test-name-conflicts.",
     "test@test.com",
     status = ZoneStatus.Active,
-    connection = testConnection,
+    connection = testZoneConnectionOption,
     adminGroupId = group.id)
   private val apexTestRecordNameConflict = RecordSet(
     zoneTestNameConflicts.id,
@@ -155,7 +155,7 @@ class RecordSetServiceIntegrationSpec
     s"zone-test-add-records.",
     "test@test.com",
     status = ZoneStatus.Active,
-    connection = testConnection,
+    connection = testZoneConnectionOption,
     adminGroupId = group.id)
 
   def setup(): Unit = {

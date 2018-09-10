@@ -40,8 +40,12 @@ trait VinylDNSTestData {
   val okAuth: AuthPrincipal = AuthPrincipal(TestDataLoader.okUser, Seq(grp.id))
   val notAuth: AuthPrincipal = AuthPrincipal(TestDataLoader.dummyUser, Seq.empty)
 
-  val testConnection: Option[ZoneConnection] = Some(
-    ZoneConnection("vinyldns.", "vinyldns.", "nzisn+4G2ldMn0q1CV3vsg==", "10.1.1.1"))
+  val testZoneConnection: ZoneConnection = ZoneConnection(
+    "vinyldns.",
+    "vinyldns.",
+    "wCZZS9lyRr77+jqfnkZ/92L9fD5ilmfrG0sslc3mgmTFsF1fRgmtJ0rj RkFITt8VHQ37wvM/nI9MAIWXYTvMqg==",
+    "10.1.1.1")
+  val testZoneConnectionOption: Option[ZoneConnection] = Some(testZoneConnection)
 
   val okZone: Zone = Zone("ok.zone.recordsets.", "test@test.com", adminGroupId = grp.id)
   val zoneDeleted: Zone = okZone.copy(status = ZoneStatus.Deleted)
@@ -49,7 +53,7 @@ trait VinylDNSTestData {
     "ok.zone.recordsets.",
     "test@test.com",
     status = ZoneStatus.Active,
-    connection = testConnection)
+    connection = testZoneConnectionOption)
 
   val zoneAuthorized: Zone = zoneActive.copy(adminGroupId = grp.id)
   val zoneNotAuthorized: Zone =

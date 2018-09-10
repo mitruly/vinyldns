@@ -111,10 +111,8 @@ class ZoneCommandHandlerIntegrationSpec
     zoneName,
     "test@test.com",
     ZoneStatus.Active,
-    connection =
-      Some(ZoneConnection("vinyldns.", "vinyldns.", "nzisn+4G2ldMn0q1CV3vsg==", "127.0.0.1:19001")),
-    transferConnection =
-      Some(ZoneConnection("vinyldns.", "vinyldns.", "nzisn+4G2ldMn0q1CV3vsg==", "127.0.0.1:19001"))
+    connection = testZoneConnectionOption,
+    transferConnection = testZoneConnectionOption
   )
   private val inDbRecordSet = RecordSet(
     zoneId = testZone.id,

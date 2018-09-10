@@ -24,7 +24,7 @@ import com.typesafe.config.ConfigFactory
 import org.joda.time.DateTime
 import vinyldns.core.domain.membership.User
 import vinyldns.core.domain.zone.{Zone, ZoneStatus}
-import vinyldns.core.TestZoneData.testConnection
+import vinyldns.core.TestZoneData._
 import vinyldns.core.TestRecordSetData._
 import vinyldns.core.domain.record._
 
@@ -61,7 +61,7 @@ class DynamoDBRecordSetRepositoryIntegrationSpec
         s"live-test-${acct.userName}.zone$i.",
         "test@test.com",
         status = ZoneStatus.Active,
-        connection = testConnection)
+        connection = testZoneConnectionOption)
 
   private val rsTemplates = Seq(rsOk, aaaa, cname)
 

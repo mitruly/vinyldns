@@ -25,7 +25,7 @@ import org.joda.time.DateTime
 import vinyldns.core.domain.record.{ChangeSet, ChangeSetStatus, RecordSetChange}
 import vinyldns.core.domain.zone.{Zone, ZoneStatus}
 import vinyldns.core.TestMembershipData.abcAuth
-import vinyldns.core.TestZoneData.testConnection
+import vinyldns.core.TestZoneData._
 import vinyldns.core.TestRecordSetData._
 
 import scala.concurrent.duration._
@@ -52,12 +52,12 @@ class DynamoDBRecordChangeRepositoryIntegrationSpec
     s"live-test-$user.zone-small.",
     "test@test.com",
     status = ZoneStatus.Active,
-    connection = testConnection)
+    connection = testZoneConnectionOption)
   private val zoneB = Zone(
     s"live-test-$user.zone-large.",
     "test@test.com",
     status = ZoneStatus.Active,
-    connection = testConnection)
+    connection = testZoneConnectionOption)
 
   private val recordSetA =
     for {
@@ -133,7 +133,7 @@ class DynamoDBRecordChangeRepositoryIntegrationSpec
     s"live-test-$user.record-changes.",
     "test@test.com",
     status = ZoneStatus.Active,
-    connection = testConnection)
+    connection = testZoneConnectionOption)
   private val baseTime = DateTime.now()
   private val timeOrder = List(
     baseTime.minusSeconds(8000),

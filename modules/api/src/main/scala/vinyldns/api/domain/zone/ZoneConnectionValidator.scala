@@ -17,11 +17,14 @@
 package vinyldns.api.domain.zone
 
 import cats.effect._
-import cats.syntax.all._
+import cats.implicits._
+import org.joda.time.DateTime
 import vinyldns.api.Interfaces._
 import vinyldns.api.VinylDNSConfig
 import vinyldns.api.domain.dns.DnsConnection
-import vinyldns.core.domain.record.{RecordSet, RecordType}
+import vinyldns.api.domain.dns.DnsProtocol.{NameNotFound, RecordSetNotFound}
+import vinyldns.api.domain.record.RecordSetChangeGenerator
+import vinyldns.core.domain.record._
 import vinyldns.core.domain.zone.{Zone, ZoneConnection}
 
 import scala.concurrent.duration._
@@ -68,6 +71,30 @@ class ZoneConnectionValidator(defaultConnection: ZoneConnection)
     }
   }.toResult
 
+  def testDdnsConnectivity(dnsConnection: DnsConnection, zone: Zone): Result[Unit] = {
+    val rs = RecordSet(
+      zone.id,
+      "vinyldns-ddns-connectivity-test",
+      RecordType.TXT,
+      86400,
+      RecordSetStatus.Pending,
+      DateTime.now,
+      records = List(TXTData("connection test")))
+
+    val result = for {
+      _ <- dnsConnection
+        .applyChange(RecordSetChangeGenerator.forDelete(rs, zone))
+        .as(())
+        .recover {
+          case _: RecordSetNotFound | _: NameNotFound => ()
+        }
+    } yield ()
+
+    result.leftMap {
+      case e => ConnectionFailed(zone, s"Unable to apply changes in zone: ${e.getMessage}")
+    }
+  }
+
   def validateZoneConnections(zone: Zone): Result[Unit] = {
     val result =
       for {
@@ -76,6 +103,7 @@ class ZoneConnectionValidator(defaultConnection: ZoneConnection)
         view <- loadZone(zone)
         _ <- runZoneChecks(view)
         _ <- hasSOA(resp, zone)
+        _ <- testDdnsConnectivity(connection, zone)
       } yield ()
 
     result.leftMap {

@@ -27,8 +27,10 @@ object TestZoneData {
   val validConnection =
     ZoneConnection("connectionName", "connectionKeyName", "connectionKey", "127.0.0.1")
 
-  val testConnection: Option[ZoneConnection] = Some(
-    ZoneConnection("vinyldns.", "vinyldns.", "nzisn+4G2ldMn0q1CV3vsg==", "10.1.1.1"))
+  val testZoneConnection: ZoneConnection =
+    ZoneConnection("vinyldns.", "vinyldns.", "nzisn+4G2ldMn0q1CV3vsg==", "10.1.1.1")
+
+  val testZoneConnectionOption: Option[ZoneConnection] = Some(testZoneConnection)
 
   val zoneActive: Zone = Zone(
     "some.zone.name.",
