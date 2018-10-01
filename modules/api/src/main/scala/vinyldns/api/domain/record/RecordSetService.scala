@@ -16,10 +16,10 @@
 
 package vinyldns.api.domain.record
 
-import vinyldns.api.Interfaces.{Result, _}
+import vinyldns.core.Interfaces.{Result, _}
 import vinyldns.api.domain.AccessValidationAlgebra
 import vinyldns.core.domain.auth.AuthPrincipal
-import vinyldns.api.domain.engine.EngineCommandBus
+import vinyldns.core.domain.engine.EngineCommandBus
 import vinyldns.core.domain.membership.{User, UserRepository}
 import vinyldns.api.domain.zone._
 import vinyldns.api.repository.ApiDataAccessor

@@ -25,7 +25,7 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.scalatest.{Matchers, OneInstancePerTest, WordSpec}
 import vinyldns.api.GroupTestData
-import vinyldns.api.Interfaces._
+import vinyldns.core.Interfaces._
 import vinyldns.api.crypto.Crypto
 import vinyldns.core.domain.record.RecordType
 import vinyldns.api.domain.zone.{ZoneServiceAlgebra, _}

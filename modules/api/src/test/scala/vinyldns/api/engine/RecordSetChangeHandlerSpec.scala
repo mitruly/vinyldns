@@ -33,7 +33,8 @@ import vinyldns.core.domain.record.RecordType.RecordType
 import vinyldns.core.domain.record.{ChangeSet, RecordChangeRepository, RecordSetRepository, _}
 import vinyldns.api.engine.RecordSetChangeHandler.{AlreadyApplied, Failure, ReadyToApply}
 import vinyldns.api.repository.InMemoryBatchChangeRepository
-import vinyldns.api.{CatsHelpers, Interfaces, VinylDNSTestData}
+import vinyldns.api.{CatsHelpers, VinylDNSTestData}
+import vinyldns.core.Interfaces
 import vinyldns.core.domain.batch.{BatchChange, SingleAddChange, SingleChangeStatus}
 
 import scala.concurrent.ExecutionContext

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package vinyldns.api.domain.engine
+package vinyldns.core.domain.engine
 
 import cats.effect._
-import vinyldns.api.Interfaces.Result
+import vinyldns.core.Interfaces.Result
 import vinyldns.core.domain.record.RecordSetChange
 import vinyldns.core.domain.zone.{ZoneCommand, ZoneCommandResult}
 

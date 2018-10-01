@@ -18,7 +18,7 @@ package vinyldns.api.domain.zone
 
 import cats.effect._
 import cats.syntax.all._
-import vinyldns.api.Interfaces._
+import vinyldns.core.Interfaces._
 import vinyldns.api.VinylDNSConfig
 import vinyldns.api.domain.dns.DnsConnection
 import vinyldns.core.domain.record.{RecordSet, RecordType}

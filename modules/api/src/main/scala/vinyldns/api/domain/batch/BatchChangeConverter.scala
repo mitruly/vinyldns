@@ -25,7 +25,7 @@ import vinyldns.api.domain.batch.BatchTransformations.{
   ExistingRecordSets,
   ExistingZones
 }
-import vinyldns.api.domain.engine.EngineCommandBus
+import vinyldns.core.domain.engine.EngineCommandBus
 import vinyldns.api.domain.record.RecordSetChangeGenerator
 import vinyldns.core.domain.record
 import vinyldns.core.domain.record._

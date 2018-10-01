@@ -16,8 +16,8 @@
 
 package vinyldns.api.engine.sqs
 
-import vinyldns.api.Interfaces._
-import vinyldns.api.domain.engine.EngineCommandBus
+import vinyldns.core.Interfaces._
+import vinyldns.core.domain.engine.EngineCommandBus
 import vinyldns.core.domain.record.RecordSetChange
 import vinyldns.core.domain.zone.{ZoneCommand, ZoneCommandResult}
 

@@ -16,7 +16,7 @@
 
 package vinyldns.api.domain
 
-import vinyldns.api.Interfaces.ensuring
+import vinyldns.core.Interfaces.ensuring
 import vinyldns.api.domain.zone.{
   ACLRuleOrdering,
   NotAuthorizedError,

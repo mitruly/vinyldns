@@ -16,7 +16,7 @@
 
 package vinyldns.api.domain.membership
 
-import vinyldns.api.Interfaces.ensuring
+import vinyldns.core.Interfaces.ensuring
 import vinyldns.core.domain.auth.AuthPrincipal
 import vinyldns.api.domain.zone.NotAuthorizedError
 import vinyldns.core.domain.membership.Group

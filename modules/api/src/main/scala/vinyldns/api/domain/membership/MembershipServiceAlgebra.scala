@@ -16,7 +16,7 @@
 
 package vinyldns.api.domain.membership
 
-import vinyldns.api.Interfaces.Result
+import vinyldns.core.Interfaces.Result
 import vinyldns.core.domain.auth.AuthPrincipal
 import vinyldns.core.domain.membership.LockStatus.LockStatus
 import vinyldns.core.domain.membership._

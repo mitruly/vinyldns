@@ -17,7 +17,7 @@
 package vinyldns.api.domain.membership
 
 import cats.implicits._
-import vinyldns.api.Interfaces._
+import vinyldns.core.Interfaces._
 import vinyldns.api.repository.ApiDataAccessor
 import vinyldns.core.domain.auth.AuthPrincipal
 import vinyldns.core.domain.membership.LockStatus.LockStatus

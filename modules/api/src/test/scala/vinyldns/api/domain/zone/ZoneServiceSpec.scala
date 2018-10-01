@@ -21,7 +21,7 @@ import org.mockito.Mockito.{doReturn, reset}
 import org.scalatest._
 import org.scalatest.mockito.MockitoSugar
 import cats.implicits._
-import vinyldns.api.Interfaces._
+import vinyldns.core.Interfaces._
 import vinyldns.api.domain.AccessValidations
 import vinyldns.api.engine.sqs.TestSqsService
 import vinyldns.api.{GroupTestData, ResultHelpers, VinylDNSTestData}

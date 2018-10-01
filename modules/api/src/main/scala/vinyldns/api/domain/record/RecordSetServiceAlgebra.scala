@@ -16,7 +16,7 @@
 
 package vinyldns.api.domain.record
 
-import vinyldns.api.Interfaces.Result
+import vinyldns.core.Interfaces.Result
 import vinyldns.core.domain.auth.AuthPrincipal
 import vinyldns.core.domain.zone.ZoneCommandResult
 import vinyldns.api.route.ListRecordSetsResponse

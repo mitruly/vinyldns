@@ -17,7 +17,7 @@
 package vinyldns.api.route
 
 import cats.implicits._
-import vinyldns.api.Interfaces._
+import vinyldns.core.Interfaces._
 import vinyldns.core.domain.zone.ZoneRepository
 
 class HealthService(zoneRepository: ZoneRepository) {

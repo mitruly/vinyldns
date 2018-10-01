@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package vinyldns.api
+package vinyldns.core
 
 import cats.data._
 import cats.effect._

@@ -17,7 +17,7 @@
 package vinyldns.api.domain.record
 
 import cats.syntax.either._
-import vinyldns.api.Interfaces._
+import vinyldns.core.Interfaces._
 import vinyldns.api.VinylDNSConfig
 import vinyldns.api.domain._
 import vinyldns.core.domain.DomainHelpers.omitTrailingDot

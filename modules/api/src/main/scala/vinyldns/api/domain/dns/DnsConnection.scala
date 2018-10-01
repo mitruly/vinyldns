@@ -20,7 +20,7 @@ import cats.effect._
 import cats.syntax.all._
 import org.slf4j.{Logger, LoggerFactory}
 import org.xbill.DNS
-import vinyldns.api.Interfaces.{result, _}
+import vinyldns.core.Interfaces.{result, _}
 import vinyldns.api.crypto.Crypto
 import vinyldns.core.domain.record.RecordType.RecordType
 import vinyldns.core.domain.record.{RecordSet, RecordSetChange, RecordSetChangeType}
