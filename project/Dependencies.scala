@@ -74,7 +74,7 @@ object Dependencies {
 
   lazy val sqsDependencies = Seq(
     "com.amazonaws"             %  "aws-java-sdk-core"              % awsV withSources(),
-    "com.amazonaws"             %  "aws-java-sdk-sqs"                % awsV withSources()
+    "com.amazonaws"             %  "aws-java-sdk-sqs"               % awsV withSources()
   )
 
   lazy val commonTestDependencies = Seq(
