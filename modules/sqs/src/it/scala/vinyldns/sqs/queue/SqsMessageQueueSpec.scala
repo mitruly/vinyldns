@@ -21,7 +21,8 @@ class SqsMessageQueueSpec extends WordSpec with MockitoSugar with BeforeAndAfter
 
     "return unit when attempting to requeue" in {
       queue = SqsMessageQueue()
-      queue.requeue(CommandMessage(ReceiptHandle("test"), makeTestAddChange(rsOk))).unsafeRunSync() shouldBe 1
+      noException should be thrownBy
+        queue.requeue(CommandMessage(ReceiptHandle("test"), makeTestAddChange(rsOk))).unsafeRunSync()
     }
 
     "send single message request" in {
