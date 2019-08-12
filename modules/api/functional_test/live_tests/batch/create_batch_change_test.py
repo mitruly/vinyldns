@@ -3145,3 +3145,33 @@ def test_create_batch_duplicates_update_check(shared_zone_test_context):
         assert_error(response[7], error_messages=[existing_err("multi-txt-del.ok.", "TXT")])
     finally:
         clear_recordset_list(to_delete, client)
+
+def test_create_batch_delete_record_fails(shared_zone_test_context):
+    """
+    Test creating batch change with DeleteRecord change input type is not recognized
+    """
+    client = shared_zone_test_context.ok_vinyldns_client
+    ok_zone = shared_zone_test_context.ok_zone
+    ok_group = shared_zone_test_context.ok_group
+
+    rs_to_create = get_recordset_json(ok_zone, "delete-record", "A", [{"address": "1.2.3.4"}], 200, ok_group['id'])
+
+    batch_change_input = {
+        "comments": "this is optional",
+        "changes": [
+            get_change_A_AAAA_json("delete-record.ok.", change_type="DeleteRecord")
+        ]
+    }
+
+    create_rs = None
+    try:
+        create_rs = client.create_recordset(rs_to_create, status=202)
+        client.wait_until_recordset_change_status(create_rs, 'Complete')
+
+        # TODO: Update this when DeleteRecord is supported
+        client.create_batch_change(batch_change_input, status=400)
+
+    finally:
+        if create_rs:
+            delete_rs = client.delete_recordset(ok_zone['id'], create_rs['recordSet']['id'], status=202)
+            client.wait_until_recordset_change_status(delete_rs, 'Complete')
