@@ -88,7 +88,10 @@ object BatchTransformations {
     def apply(zone: Zone, recordName: String, changeInput: ChangeInput): ChangeForValidation =
       changeInput match {
         case a: AddChangeInput => AddChangeForValidation(zone, recordName, a)
-        case d: DeleteChangeInput => DeleteChangeForValidation(zone, recordName, d)
+        case d: DeleteRRSetChangeInput =>
+          DeleteChangeForValidation(zone, recordName, d)
+        case d: DeleteRecordChangeInput =>
+          DeleteChangeForValidation(zone, recordName, d)
       }
   }
 
@@ -130,19 +133,38 @@ object BatchTransformations {
       inputChange: DeleteChangeInput)
       extends ChangeForValidation {
     def asStoredChange(changeId: Option[String] = None): SingleChange =
-      SingleDeleteRRSetChange(
-        Some(zone.id),
-        Some(zone.name),
-        Some(recordName),
-        inputChange.inputName,
-        inputChange.typ,
-        SingleChangeStatus.Pending,
-        None,
-        None,
-        None,
-        List.empty,
-        changeId.getOrElse(UUID.randomUUID().toString)
-      )
+      inputChange match {
+        case _: DeleteRRSetChangeInput =>
+          SingleDeleteRRSetChange(
+            Some(zone.id),
+            Some(zone.name),
+            Some(recordName),
+            inputChange.inputName,
+            inputChange.typ,
+            SingleChangeStatus.Pending,
+            None,
+            None,
+            None,
+            List.empty,
+            changeId.getOrElse(UUID.randomUUID().toString)
+          )
+
+        case drci: DeleteRecordChangeInput =>
+          SingleDeleteRecordChange(
+            Some(zone.id),
+            Some(zone.name),
+            Some(recordName),
+            inputChange.inputName,
+            inputChange.typ,
+            drci.record,
+            SingleChangeStatus.Pending,
+            None,
+            None,
+            None,
+            List.empty,
+            changeId.getOrElse(UUID.randomUUID().toString)
+          )
+      }
 
     def isAddChangeForValidation: Boolean = false
 

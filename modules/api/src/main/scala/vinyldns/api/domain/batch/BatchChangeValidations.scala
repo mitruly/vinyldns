@@ -175,7 +175,10 @@ class BatchChangeValidations(
       isApproved: Boolean): ValidatedBatch[ChangeInput] =
     input.map {
       case a: AddChangeInput => validateAddChangeInput(a, isApproved).map(_ => a)
-      case d: DeleteChangeInput => validateInputName(d, isApproved).map(_ => d)
+      case d: DeleteRRSetChangeInput => validateInputName(d, isApproved).map(_ => d)
+      // TODO: Add DeleteRecordChangeInput validations
+      case _: DeleteRecordChangeInput =>
+        throw new RuntimeException("DeleteRecordChangeInput validations not yet implemented.")
     }
 
   def validateAddChangeInput(
@@ -186,6 +189,15 @@ class BatchChangeValidations(
     val validInput = validateInputName(addChangeInput, isApproved)
 
     validTTL |+| validRecord |+| validInput
+  }
+
+  def validateDeleteRecordChangeInput(
+      deleteRecordChangeInput: DeleteRecordChangeInput,
+      isApproved: Boolean): SingleValidation[Unit] = {
+    val validRecord = validateRecordData(deleteRecordChangeInput.record)
+    val validInput = validateInputName(deleteRecordChangeInput, isApproved)
+
+    validRecord |+| validInput
   }
 
   def validateRecordData(record: RecordData): SingleValidation[Unit] =
