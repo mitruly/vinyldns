@@ -95,6 +95,8 @@ sealed trait SingleChange {
   def cancel: SingleChange = this match {
     case sad: SingleAddChange => sad.copy(status = SingleChangeStatus.Cancelled)
     case sdc: SingleDeleteRRSetChange => sdc.copy(status = SingleChangeStatus.Cancelled)
+    // TODO: Implement cancel once DeleteRecord is connected in batch change process flow
+    case _ => throw new RuntimeException("Not yet implemented")
   }
 }
 
