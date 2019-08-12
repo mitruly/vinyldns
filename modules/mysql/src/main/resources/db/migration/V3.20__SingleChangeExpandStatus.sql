@@ -1,5 +1,0 @@
-CREATE SCHEMA IF NOT EXISTS ${dbName};
-
-USE ${dbName};
-
-ALTER TABLE single_change MODIFY status VARCHAR(20) NOT NULL;

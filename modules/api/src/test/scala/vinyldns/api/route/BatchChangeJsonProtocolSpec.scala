@@ -370,6 +370,40 @@ class BatchChangeJsonProtocolSpec
     }
   }
 
+  "Serializing SingleDeleteRecordChange to JSON" should {
+    "successfully serialize" in {
+      val toJson = SingleDeleteRecordChange(
+        Some("zoneId"),
+        Some("zoneName"),
+        Some("recordName"),
+        "fqdn",
+        A,
+        AData("1.2.3.4"),
+        Pending,
+        Some("systemMessage"),
+        None,
+        None,
+        List(SingleChangeError(barDiscoveryError)),
+        id = "id"
+      )
+      val result = SingleDeleteRecordChangeSerializer.toJson(toJson)
+
+      result shouldBe ("zoneId" -> "zoneId") ~
+        ("zoneName" -> "zoneName") ~
+        ("recordName" -> "recordName") ~
+        ("inputName" -> "fqdn") ~
+        ("type" -> decompose(A)) ~
+        ("record" -> decompose(AData("1.2.3.4"))) ~
+        ("status" -> decompose(Pending)) ~
+        ("systemMessage" -> "systemMessage") ~
+        ("recordChangeId" -> decompose(None)) ~
+        ("recordSetId" -> decompose(None)) ~
+        ("validationErrors" -> decompose(List(SingleChangeError(barDiscoveryError)))) ~
+        ("id" -> "id") ~
+        ("changeType" -> "DeleteRecordSet")
+    }
+  }
+
   "Serializing BatchChange to JSON" should {
     "successfully serialize" in {
       val delete = SingleDeleteRRSetChange(

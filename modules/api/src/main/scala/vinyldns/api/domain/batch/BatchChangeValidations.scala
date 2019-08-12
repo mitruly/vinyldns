@@ -191,15 +191,6 @@ class BatchChangeValidations(
     validTTL |+| validRecord |+| validInput
   }
 
-  def validateDeleteRecordChangeInput(
-      deleteRecordChangeInput: DeleteRecordChangeInput,
-      isApproved: Boolean): SingleValidation[Unit] = {
-    val validRecord = validateRecordData(deleteRecordChangeInput.record)
-    val validInput = validateInputName(deleteRecordChangeInput, isApproved)
-
-    validRecord |+| validInput
-  }
-
   def validateRecordData(record: RecordData): SingleValidation[Unit] =
     record match {
       case a: AData => validateIpv4Address(a.address).asUnit
