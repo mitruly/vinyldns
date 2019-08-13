@@ -149,6 +149,8 @@ object BatchTransformations {
             changeId.getOrElse(UUID.randomUUID().toString)
           )
 
+        // TODO: Remove coverage on/off
+        // $COVERAGE-OFF$
         case drci: DeleteRecordChangeInput =>
           SingleDeleteRecordChange(
             Some(zone.id),
@@ -164,6 +166,8 @@ object BatchTransformations {
             List.empty,
             changeId.getOrElse(UUID.randomUUID().toString)
           )
+
+        // $COVERAGE-ON$
       }
 
     def isAddChangeForValidation: Boolean = false
