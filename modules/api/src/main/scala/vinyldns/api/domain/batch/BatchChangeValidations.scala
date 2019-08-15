@@ -178,7 +178,7 @@ class BatchChangeValidations(
       case d: DeleteRRSetChangeInput => validateInputName(d, isApproved).map(_ => d)
       // TODO: Add DeleteRecordChangeInput validations
       case _: DeleteRecordChangeInput =>
-        throw new RuntimeException("DeleteRecordChangeInput validations not yet implemented.")
+        UnsupportedOperation("DeleteRecordChangeInput").invalidNel
     }
 
   def validateAddChangeInput(
@@ -251,10 +251,11 @@ class BatchChangeValidations(
           batchOwnerGroupId)
       case add: AddChangeForValidation =>
         validateAddWithContext(add, changeGroups, existingRecords, auth, batchOwnerGroupId)
-      case deleteUpdate: DeleteChangeForValidation
+      case deleteUpdate: DeleteRRSetChangeForValidation
           if changeGroups.containsAddChangeForValidation(deleteUpdate.recordKey) =>
         validateDeleteUpdateWithContext(deleteUpdate, existingRecords, auth)
-      case del: DeleteChangeForValidation => validateDeleteWithContext(del, existingRecords, auth)
+      case del: DeleteRRSetChangeForValidation =>
+        validateDeleteWithContext(del, existingRecords, auth)
     }
   }
 
@@ -285,7 +286,7 @@ class BatchChangeValidations(
       ().validNel
 
   def validateDeleteWithContext(
-      change: DeleteChangeForValidation,
+      change: DeleteRRSetChangeForValidation,
       existingRecords: ExistingRecordSets,
       auth: AuthPrincipal): SingleValidation[ChangeForValidation] = {
     val validations =
@@ -330,7 +331,7 @@ class BatchChangeValidations(
   }
 
   def validateDeleteUpdateWithContext(
-      change: DeleteChangeForValidation,
+      change: DeleteRRSetChangeForValidation,
       existingRecords: ExistingRecordSets,
       auth: AuthPrincipal): SingleValidation[ChangeForValidation] = {
     val validations =

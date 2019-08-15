@@ -74,10 +74,7 @@ final case class AddChangeInput(
   }
 }
 
-sealed trait DeleteChangeInput extends ChangeInput
-
-final case class DeleteRRSetChangeInput(inputName: String, typ: RecordType)
-    extends DeleteChangeInput {
+final case class DeleteRRSetChangeInput(inputName: String, typ: RecordType) extends ChangeInput {
   def asNewStoredChange(errors: NonEmptyList[DomainValidationError]): SingleChange =
     SingleDeleteRRSetChange(
       None,
@@ -96,7 +93,7 @@ final case class DeleteRRSetChangeInput(inputName: String, typ: RecordType)
 // TODO: Remove coverage on/off
 // $COVERAGE-OFF$
 final case class DeleteRecordChangeInput(inputName: String, typ: RecordType, record: RecordData)
-    extends DeleteChangeInput {
+    extends ChangeInput {
   def asNewStoredChange(errors: NonEmptyList[DomainValidationError]): SingleChange =
     SingleDeleteRecordChange(
       None,

@@ -89,9 +89,11 @@ object BatchTransformations {
       changeInput match {
         case a: AddChangeInput => AddChangeForValidation(zone, recordName, a)
         case d: DeleteRRSetChangeInput =>
-          DeleteChangeForValidation(zone, recordName, d)
-        case d: DeleteRecordChangeInput =>
-          DeleteChangeForValidation(zone, recordName, d)
+          DeleteRRSetChangeForValidation(zone, recordName, d)
+        // TODO: Support DeleteRecordChangeInput in ChangeForValidation
+        case _: DeleteRecordChangeInput =>
+          throw new UnsupportedOperationException(
+            "DeleteRecordChangeInput is not yet implemented/supported in VinylDNS.")
       }
   }
 
@@ -127,10 +129,10 @@ object BatchTransformations {
     def isDeleteChangeForValidation: Boolean = false
   }
 
-  final case class DeleteChangeForValidation(
+  final case class DeleteRRSetChangeForValidation(
       zone: Zone,
       recordName: String,
-      inputChange: DeleteChangeInput)
+      inputChange: DeleteRRSetChangeInput)
       extends ChangeForValidation {
     def asStoredChange(changeId: Option[String] = None): SingleChange =
       inputChange match {
@@ -148,26 +150,6 @@ object BatchTransformations {
             List.empty,
             changeId.getOrElse(UUID.randomUUID().toString)
           )
-
-        // TODO: Remove coverage on/off
-        // $COVERAGE-OFF$
-        case drci: DeleteRecordChangeInput =>
-          SingleDeleteRecordChange(
-            Some(zone.id),
-            Some(zone.name),
-            Some(recordName),
-            inputChange.inputName,
-            inputChange.typ,
-            drci.record,
-            SingleChangeStatus.Pending,
-            None,
-            None,
-            None,
-            List.empty,
-            changeId.getOrElse(UUID.randomUUID().toString)
-          )
-
-        // $COVERAGE-ON$
       }
 
     def isAddChangeForValidation: Boolean = false
