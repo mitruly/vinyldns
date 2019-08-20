@@ -1769,7 +1769,7 @@ class BatchChangeValidationsSpec
   }
 
   property(
-    "validateChangesWithContext: fail on update/delete to a multi record existing RecordSet if multi disabled") {
+    "validateChangesWithContext: fail on delete to a multi record existing RecordSet if multi disabled") {
     val existing = List(
       sharedZoneRecord.copy(
         name = updateSharedAddChange.recordName,
@@ -1795,8 +1795,7 @@ class BatchChangeValidationsSpec
       Some(okGroup.id)
     )
 
-    result(0) should haveInvalid[DomainValidationError](
-      ExistingMultiRecordError(updateSharedAddChange.inputChange.inputName, existing(0)))
+    result(0) shouldBe valid
     result(1) should haveInvalid[DomainValidationError](
       ExistingMultiRecordError(updateSharedDeleteChange.inputChange.inputName, existing(0)))
     result(2) should haveInvalid[DomainValidationError](
