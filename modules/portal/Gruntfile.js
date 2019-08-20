@@ -33,9 +33,9 @@ module.exports = function (grunt) {
             local_dependencies: {
                 files: {
                     'app/views/main.scala.html': [
+                        'public/bower_components/moment/moment.js',
                         'public/gentelella/vendors/jquery/dist/jquery.min.js',
                         'public/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js',
-                        'public/bower_components/moment/moment.js',
                         'public/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.js',
                         'public/javascripts/ui-bootstrap.min.js',
                         'public/javascripts/angular.min.js',
