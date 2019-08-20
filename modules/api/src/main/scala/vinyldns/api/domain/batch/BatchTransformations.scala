@@ -163,7 +163,7 @@ object BatchTransformations {
       zone: Zone,
       recordName: String,
       inputChange: DeleteRecordChangeInput)
-    extends ChangeForValidation {
+      extends ChangeForValidation {
     def asStoredChange(changeId: Option[String] = None): SingleChange =
       SingleDeleteRecordChange(
         Some(zone.id),
