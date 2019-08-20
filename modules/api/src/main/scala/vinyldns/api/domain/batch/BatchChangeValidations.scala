@@ -309,7 +309,7 @@ class BatchChangeValidations(
     // could potentially be grouped with a single delete
     val typedValidations = change.inputChange.typ match {
       case CNAME => recordIsUniqueInBatch(change, changeGroups)
-      case _ => newRecordSetIsNotMulti(change, changeGroups)
+      case _ => ().validNel
     }
 
     val authAndOwnerGroupValidations: SingleValidation[Unit] =
