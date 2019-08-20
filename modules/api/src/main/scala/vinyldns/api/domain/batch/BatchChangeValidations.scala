@@ -319,8 +319,7 @@ class BatchChangeValidations(
             ownerGroupProvidedIfNeeded(
               change,
               existingRecordSets.get(change.zone.id, change.recordName, change.inputChange.typ),
-              batchOwnerGroupId) |+|
-            existingRecordSetIsNotMulti(change, rs)
+              batchOwnerGroupId)
         case None =>
           RecordDoesNotExist(change.inputChange.inputName).invalidNel
       }
@@ -441,7 +440,7 @@ class BatchChangeValidations(
       changeGroups: ChangeForValidationMap): SingleValidation[Unit] = {
     val cnameExists = existingRecordSets.get(zoneId, recordName, CNAME).isDefined
     val matchList = changeGroups.getList(RecordKey(zoneId, recordName, CNAME))
-    val isBeingDeleted = matchList.forall(_.isDeleteChangeForValidation) && matchList.nonEmpty
+    val isBeingDeleted = matchList.forall(!_.isAddChangeForValidation) && matchList.nonEmpty
 
     (cnameExists, isBeingDeleted) match {
       case (false, _) => ().validNel
@@ -460,7 +459,7 @@ class BatchChangeValidations(
 
     val hasNonDeletedExistingRs = existingRecordSetsMatch.find { rs =>
       val matchList = changeGroups.getList(RecordKey(rs.zoneId, rs.name, rs.typ))
-      matchList.exists(!_.isDeleteChangeForValidation) || matchList.isEmpty
+      matchList.isEmpty || matchList.exists(_.isAddChangeForValidation)
     }
 
     hasNonDeletedExistingRs match {
