@@ -135,22 +135,19 @@ object BatchTransformations {
       inputChange: DeleteRRSetChangeInput)
       extends ChangeForValidation {
     def asStoredChange(changeId: Option[String] = None): SingleChange =
-      inputChange match {
-        case _: DeleteRRSetChangeInput =>
-          SingleDeleteRRSetChange(
-            Some(zone.id),
-            Some(zone.name),
-            Some(recordName),
-            inputChange.inputName,
-            inputChange.typ,
-            SingleChangeStatus.Pending,
-            None,
-            None,
-            None,
-            List.empty,
-            changeId.getOrElse(UUID.randomUUID().toString)
-          )
-      }
+      SingleDeleteRRSetChange(
+        Some(zone.id),
+        Some(zone.name),
+        Some(recordName),
+        inputChange.inputName,
+        inputChange.typ,
+        SingleChangeStatus.Pending,
+        None,
+        None,
+        None,
+        List.empty,
+        changeId.getOrElse(UUID.randomUUID().toString)
+      )
 
     def isAddChangeForValidation: Boolean = false
 
