@@ -244,6 +244,9 @@ object BatchTransformations {
     // There is a distinction between having a delete in the batch and having a valid delete
     def containsValidDeleteChanges(recordKey: RecordKey): Boolean =
       getChangeForValidationChanges(recordKey).deleteChanges.nonEmpty
+
+    def containsFullRRSetDelete(recordKey: RecordKey): Boolean =
+      getChangeForValidationChanges(recordKey).containsFullRRSetDelete
   }
 
   final case class ValidationChanges(
@@ -251,7 +254,10 @@ object BatchTransformations {
       deleteChanges: Set[RecordData],
       existingRecords: Set[RecordData],
       ttls: Set[Option[Long]], // Only kept track of for adds
-      containsDeletes: Boolean)
+      containsDeletes: Boolean) {
+    val containsFullRRSetDelete: Boolean =
+      existingRecords.nonEmpty && deleteChanges == existingRecords
+  }
 
   final case class BatchValidationFlowOutput(
       validatedChanges: ValidatedBatch[ChangeForValidation],

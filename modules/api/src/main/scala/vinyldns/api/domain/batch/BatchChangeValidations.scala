@@ -256,15 +256,19 @@ class BatchChangeValidations(
           auth,
           isApproved,
           batchOwnerGroupId)
-      case deleteUpdate: DeleteRRSetChangeForValidation
-          if changeGroups.containsAddChanges(deleteUpdate.recordKey) =>
+      // These cases MUST be below adds because:
+      // - order matters
+      // - all AddChangeForValidations are covered by this point
+      case deleteUpdate
+          if changeGroups.containsAddChanges(deleteUpdate.recordKey) ||
+            !changeGroups.containsFullRRSetDelete(deleteUpdate.recordKey) =>
         validateDeleteUpdateWithContext(
           deleteUpdate,
           changeGroups.existingRecordSets,
           auth,
           isApproved)
-      case del: DeleteRRSetChangeForValidation =>
-        validateDeleteWithContext(del, changeGroups.existingRecordSets, auth, isApproved)
+      case delete =>
+        validateDeleteWithContext(delete, changeGroups.existingRecordSets, auth, isApproved)
     }
 
   def existingRecordSetIsNotMulti(
@@ -291,7 +295,7 @@ class BatchChangeValidations(
       ().validNel
 
   def validateDeleteWithContext(
-      change: DeleteRRSetChangeForValidation,
+      change: ChangeForValidation,
       existingRecords: ExistingRecordSets,
       auth: AuthPrincipal,
       isApproved: Boolean): SingleValidation[ChangeForValidation] = {
@@ -341,7 +345,7 @@ class BatchChangeValidations(
   }
 
   def validateDeleteUpdateWithContext(
-      change: DeleteRRSetChangeForValidation,
+      change: ChangeForValidation,
       existingRecords: ExistingRecordSets,
       auth: AuthPrincipal,
       isApproved: Boolean): SingleValidation[ChangeForValidation] = {
