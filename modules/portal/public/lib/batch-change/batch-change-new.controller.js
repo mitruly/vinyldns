@@ -70,27 +70,25 @@
                 }
 
                 function parseSingleChangeResponse(singleChanges) {
-                    $scope.allowManualReview = true;
-                    $scope.ownerGroupError = null;
+                    $scope.allowManualReview = $scope.manualReviewEnabled;
+                    $scope.ownerGroupError = false;
                     $scope.newBatch.changes = singleChanges;
-                    for(var i = 0; i < $scope.newBatch.changes.length; i++) {
+                    $scope.anyHardErrors = false;
+                    for (var i = 0; i < $scope.newBatch.changes.length; i++) {
                         if ($scope.newBatch.changes[i].errors) {
                             $scope.singleChangeErrors = true;
-                            if (
-                              $scope.manualReviewEnabled
-                              && ($scope.newBatch.changes[i].errors.every(e => e.includes('Zone Discovery Failed') || e.includes('requires manual review')))
-                            ) {
-                                $scope.newBatch.changes[i].softErrors = true;
-                                $scope.newBatch.changes[i].hardErrors = false;
+                            if ($scope.manualReviewEnabled && $scope.newBatch.changes[i].errors.every(e => e.includes('Zone Discovery Failed') || e.includes('requires manual review'))) {
+                              $scope.newBatch.changes[i].softError = true;
+                              $scope.newBatch.changes[i].hardError = false;
                             } else {
                                 $scope.anyHardErrors = true;
-                                $scope.newBatch.changes[i].softErrors = false;
-                                $scope.newBatch.changes[i].hardErrors = true;
+                                $scope.newBatch.changes[i].softError = false;
+                                $scope.newBatch.changes[i].hardError = true;
                                 $scope.ownerGroupError = $scope.newBatch.changes[i].errors.filter(e => e.includes('owner group ID must be specified for record'))[0]
                             }
                         } else {
-                            $scope.newBatch.changes[i].softErrors = false;
-                            $scope.newBatch.changes[i].hardErrors = false;
+                            $scope.newBatch.changes[i].softError = false;
+                            $scope.newBatch.changes[i].hardError = false;
                         }
                     }
                 }
@@ -116,7 +114,7 @@
                             if (typeof error.data == "string" && error.data.includes('requires owner group for manual review')) {
                                 $scope.ownerGroupError = JSON.parse(error.data); //JSON.parse to remove extra set of quotes.
                             } else {
-                                $scope.ownerGroupError = null;
+                                $scope.ownerGroupError = false;
                             }
                             handleError(error, 'batchChangesService::createBatchChange-failure');
                         } else {
@@ -143,7 +141,6 @@
             };
 
             $scope.cancelSubmit = function() {
-                setReviewParam();
                 $scope.formStatus = "pendingSubmit";
                 $scope.confirmationPrompt = "Are you sure you want to submit this batch change request?";
             };
@@ -160,8 +157,7 @@
                 $scope.manualReviewEnabled = manualReviewEnabled;
                 $scope.singleChangeErrors = false;
                 $scope.anyHardErrors = false;
-                $scope.ownerGroupError = null;
-                setReviewParam();
+                $scope.ownerGroupError = false;
             }
 
             $scope.getLocalTimeZone = function() {
@@ -171,10 +167,6 @@
             function handleError(error, type) {
                 var alert = utilityService.failure(error, type);
                 $scope.alerts.push(alert);
-            }
-
-            function setReviewParam() {
-                $scope.allowManualReview = $scope.manualReviewEnabled ? false : null;
             }
 
             $scope.uploadCSV = function(file) {

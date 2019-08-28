@@ -95,7 +95,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="change in newBatch.changes track by $index" ng-class="{changeError: singleChangeErrors && change.hardErrors, softError: singleChangeErrors && change.softErrors}">
+                                <tr ng-repeat="change in newBatch.changes track by $index" ng-class="{changeError: change.hardError, softError: change.softError}">
                                     <td><span>{{$index + 1}}</span></td>
                                     <td>
                                         <select class="form-control changeType" ng-model="change.changeType">
@@ -204,7 +204,7 @@
                                         </p>
                                     </td>
                                     <!--end record data name based on record type and change type-->
-                                    <td class="col-md-3" ng-if="singleChangeErrors">
+                                    <td class="col-md-3" ng-if="change.errors">
                                         <p ng-repeat="singleChangeError in change.errors">
                                             {{singleChangeError}}
                                         </p>
