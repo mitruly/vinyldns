@@ -181,6 +181,26 @@ class BatchChangeService(
       _ <- notifiers.notify(Notification(cancelledBatchChange)).toBatchResult
     } yield cancelledBatchChange
 
+  def updateScheduledTime(
+      batchChangeId: String,
+      batchChangeInput: BatchChangeInput,
+      authPrincipal: AuthPrincipal): BatchResult[BatchChange] =
+    for {
+      batchChange <- getExistingBatchChange(batchChangeId)
+      requesterAuth <- EitherT.fromOptionF(
+        authProvider.getAuthPrincipalByUserId(batchChange.userId),
+        BatchRequesterNotFound(batchChange.userId, batchChange.userName)
+      )
+      _ <- validateScheduledBatchChangeEdit(
+        batchChange,
+        batchChangeInput.scheduledTime,
+        authPrincipal,
+        requesterAuth.isTestUser).toBatchResult
+      rescheduledBatchChange = batchChange.copy(scheduledTime = batchChangeInput.scheduledTime)
+      asInput = BatchChangeInput(rescheduledBatchChange)
+      updatedBatchChange <- applyBatchChange(asInput, authPrincipal, true)
+    } yield updatedBatchChange
+
   def getBatchChange(id: String, auth: AuthPrincipal): BatchResult[BatchChangeInfo] =
     for {
       batchChange <- getExistingBatchChange(id)
@@ -377,7 +397,7 @@ class BatchChangeService(
       val changes = transformed.zip(batchChangeInput.changes).map {
         case (validated, input) =>
           validated match {
-            case Valid(v) => v.asStoredChange()
+            case Valid(v) => v.asStoredChange(Some(input.id))
             case Invalid(e) => input.asNewStoredChange(e)
           }
       }
@@ -389,13 +409,16 @@ class BatchChangeService(
         changes,
         batchChangeInput.ownerGroupId,
         BatchChangeApprovalStatus.PendingReview,
-        scheduledTime = batchChangeInput.scheduledTime
+        scheduledTime = batchChangeInput.scheduledTime,
+        id = batchChangeInput.id
       ).asRight
     }
 
     // Respond with a response to process immediately
     def processNowResponse = {
-      val changes = transformed.getValid.map(_.asStoredChange())
+      val changes = transformed.getValid.zip(batchChangeInput.changes).map {
+        case (validated, input) => validated.asStoredChange(Some(input.id))
+      }
       BatchChange(
         auth.userId,
         auth.signedInUser.userName,
@@ -404,7 +427,8 @@ class BatchChangeService(
         changes,
         batchChangeInput.ownerGroupId,
         BatchChangeApprovalStatus.AutoApproved,
-        scheduledTime = batchChangeInput.scheduledTime
+        scheduledTime = batchChangeInput.scheduledTime,
+        id = batchChangeInput.id
       ).asRight
     }
 
