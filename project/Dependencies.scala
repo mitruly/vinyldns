@@ -9,7 +9,7 @@ object Dependencies {
   lazy val prometheusV = "0.4.0"
   lazy val catsEffectV = "1.0.0"
   lazy val configV = "1.3.2"
-  lazy val scalikejdbcV = "3.3.1"
+  lazy val scalikejdbcV = "3.4.1"
   lazy val scalaTestV = "3.0.4"
   lazy val scodecV = "1.1.5"
   lazy val playV = "2.6.19"
@@ -34,8 +34,10 @@ object Dependencies {
     "org.flywaydb"              %  "flyway-core"                    % "5.1.4",
     "org.json4s"                %% "json4s-ext"                     % "3.5.3",
     "org.json4s"                %% "json4s-jackson"                 % "3.5.3",
-    "org.scalikejdbc"           %% "scalikejdbc"                    % scalikejdbcV,
-    "org.scalikejdbc"           %% "scalikejdbc-config"             % scalikejdbcV,
+    "org.scalikejdbc"           %% "scalikejdbc"                    % scalikejdbcV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
+    "org.scalikejdbc"           %% "scalikejdbc-config"             % scalikejdbcV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
     "org.scodec"                %% "scodec-bits"                    % scodecV,
     "org.slf4j"                 %  "slf4j-api"                      % "1.7.25",
     "co.fs2"                    %% "fs2-core"                       % "1.0.0",
@@ -53,18 +55,26 @@ object Dependencies {
   )
 
   lazy val coreDependencies = Seq(
-    "org.typelevel"             %% "cats-effect"                    % catsEffectV,
-    "com.typesafe"              %  "config"                         % configV,
+    "org.typelevel"             %% "cats-effect"                    % catsEffectV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
+    "com.typesafe"              %  "config"                         % configV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
     "joda-time"                 %  "joda-time"                      % "2.8.1",
-    "org.scodec"                %% "scodec-bits"                    % scodecV,
-    "nl.grons"                  %% "metrics-scala"                  % metricsScalaV,
-    "org.apache.commons"        %  "commons-text"                   % "1.4",
-    "com.github.pureconfig"     %% "pureconfig"                     % pureConfigV,
-    "com.github.pureconfig"     %% "pureconfig-cats-effect"         % pureConfigV,
+    "org.scodec"                %% "scodec-bits"                    % scodecV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
+    "nl.grons"                  %% "metrics-scala"                  % metricsScalaV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
+    "org.apache.commons"        %  "commons-text"                   % "1.4"
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
+    "com.github.pureconfig"     %% "pureconfig"                     % pureConfigV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
+    "com.github.pureconfig"     %% "pureconfig-cats-effect"         % pureConfigV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
     "javax.xml.bind"            %  "jaxb-api"                       % jaxbV % "provided",
     "com.sun.xml.bind"          %  "jaxb-core"                      % jaxbV,
     "com.sun.xml.bind"          %  "jaxb-impl"                      % jaxbV,
-    "ch.qos.logback"            %  "logback-classic"                % "1.0.7"
+    "ch.qos.logback"            %  "logback-classic"                % "1.0.7",
+    "org.scala-lang.modules"    %% "scala-collection-compat"        % "0.1.1"
   )
 
   lazy val dynamoDBDependencies = Seq(
@@ -75,8 +85,10 @@ object Dependencies {
   lazy val mysqlDependencies = Seq(
     "org.flywaydb"              %  "flyway-core"                    % "5.1.4",
     "org.mariadb.jdbc"          %  "mariadb-java-client"            % "2.3.0",
-    "org.scalikejdbc"           %% "scalikejdbc"                    % scalikejdbcV,
-    "org.scalikejdbc"           %% "scalikejdbc-config"             % scalikejdbcV,
+    "org.scalikejdbc"           %% "scalikejdbc"                    % scalikejdbcV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
+    "org.scalikejdbc"           %% "scalikejdbc-config"             % scalikejdbcV
+      exclude("org.scala-lang.modules", "scala-collection-compat"),
     "com.zaxxer"                %  "HikariCP"                       % "3.2.0"
   )
 
